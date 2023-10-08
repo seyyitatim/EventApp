@@ -1,0 +1,12 @@
+services:
+  db:
+    image: mysql
+    environment:   
+      MYSQL_ROOT_PASSWORD: 'eventapppass'
+  
+  phpAdmin:
+    image: phpmyadmin
+    environment: 
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
