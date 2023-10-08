@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventAppMVC.Entities
+namespace EventAppMVC.Models
 {
-    public class Event
+    public class CreateEventModel
     {
-        public int Id { get; set; }
         [Display(Name = "Başlık")]
         public string Title { get; set; }
         [Display(Name = "Yer")]
@@ -18,6 +17,6 @@ namespace EventAppMVC.Entities
         [Display(Name = "Açıklaması")]
         public string Description { get; set; }
         [Display(Name = "Resim")]
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

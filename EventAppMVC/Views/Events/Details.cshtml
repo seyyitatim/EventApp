@@ -1,0 +1,59 @@
+﻿@model EventAppMVC.Entities.Event
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h4>Etkinlik Detayı</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Place)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Place)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsFree)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsFree)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="@("/image/"+@Model.Image)" />
+        </dd>
+    </dl>
+</div>
+<div>
+    <br />
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Düzenle</a> |
+    <a asp-action="Index">Listeye geri dön</a>
+</div>

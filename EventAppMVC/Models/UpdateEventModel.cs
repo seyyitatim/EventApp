@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventAppMVC.Entities
+namespace EventAppMVC.Models
 {
-    public class Event
+    public class UpdateEventModel
     {
         public int Id { get; set; }
         [Display(Name = "Başlık")]
@@ -17,7 +17,5 @@ namespace EventAppMVC.Entities
         public float Price { get; set; }
         [Display(Name = "Açıklaması")]
         public string Description { get; set; }
-        [Display(Name = "Resim")]
-        public string Image { get; set; }
     }
 }
