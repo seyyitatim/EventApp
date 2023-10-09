@@ -74,22 +74,29 @@ namespace EventAppMVC.Controllers
                     Image = ""
                 };
 
-                string wwwRootPath = hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(model.Image.FileName);
-                string extension = Path.GetExtension(model.Image.FileName);
-                entity.Image = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/image/", entity.Image);
-
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await model.Image.CopyToAsync(fileStream);
-                }
+                entity.Image = AddImageToFolder(model.Image);
 
                 _context.Events.Add(entity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
+        }
+
+        private string AddImageToFolder(IFormFile image)
+        {
+            string wwwRootPath = hostEnvironment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(image.FileName);
+            string extension = Path.GetExtension(image.FileName);
+            string imageName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            string path = Path.Combine(wwwRootPath + "/image/", imageName);
+
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                image.CopyTo(fileStream);
+            }
+
+            return imageName;
         }
 
         // GET: Events/Edit/5
@@ -113,7 +120,7 @@ namespace EventAppMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Place,Time,IsFree,Price,Description")] UpdateEventModel model)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Place,Time,IsFree,Price,Description,Image")] UpdateEventModel model)
         {
             if (id != model.Id)
             {
@@ -131,8 +138,13 @@ namespace EventAppMVC.Controllers
                     entity.Price = model.Price;
                     entity.Time = model.Time;
                     entity.IsFree = model.IsFree;
-                    //entity.Image = model.Image;
                     entity.Place = model.Place;
+
+                    if (model.Image.Length > 0)
+                    {
+                        DeleteImage(entity.Image);
+                        entity.Image = AddImageToFolder(model.Image);
+                    }
 
                     _context.Update(entity);
                     await _context.SaveChangesAsync();
@@ -151,6 +163,18 @@ namespace EventAppMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
+        }
+
+        private void DeleteImage(string path)
+        {
+            string wwwRootPath = hostEnvironment.WebRootPath;
+            string imagePath = System.IO.Path.Combine(wwwRootPath + "/image/", path);
+
+            FileInfo file = new FileInfo(imagePath);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
         }
 
         // GET: Events/Delete/5
@@ -183,6 +207,7 @@ namespace EventAppMVC.Controllers
             var @event = await _context.Events.FindAsync(id);
             if (@event != null)
             {
+                DeleteImage(@event.Image);
                 _context.Events.Remove(@event);
             }
 

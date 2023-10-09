@@ -17,5 +17,7 @@ namespace EventAppMVC.Models
         public float Price { get; set; }
         [Display(Name = "Açıklaması")]
         public string Description { get; set; }
+        [Display(Name = "Açıklaması")]
+        public IFormFile Image { get; set; }
     }
 }

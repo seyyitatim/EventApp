@@ -30,7 +30,7 @@
                     <input class="form-check-input" asp-for="IsFree" /> @Html.DisplayNameFor(model => model.IsFree)
                 </label>
             </div>
-            <div id="priceInput" style="display:none;" class="form-group">
+            <div id="priceInput" class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
@@ -73,9 +73,9 @@
 
         isFreeInput.addEventListener('change', (event) => {
             if (event.currentTarget.checked) {
-                priceInput.style.display="block";
+                priceInput.style.display="none";
             } else {
-                priceInput.style.display = "none";
+                priceInput.style.display = "block";
             }
         })
     </script>
